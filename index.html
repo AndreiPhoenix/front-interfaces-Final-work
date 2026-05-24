@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <title>PromptHub — Обучение промпт-инжинирингу</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f7fb;
+            color: #1a1a2e;
+        }
+
+        /* ШАПКА С ЗАМЕТНЫМИ КНОПКАМИ */
+        .header {
+            background: white;
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-bottom: 2px solid #e0e7ff;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #4f46e5, #06b6d4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* ВЫДЕЛЕННЫЕ КНОПКИ НАВИГАЦИИ */
+        .nav {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            padding: 8px 20px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s;
+            background: #f1f5f9;
+            color: #334155;
+            border: none;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .nav-btn:hover {
+            background: #4f46e5;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .btn-login {
+            background: white;
+            border: 2px solid #4f46e5;
+            color: #4f46e5;
+        }
+
+        .btn-login:hover {
+            background: #4f46e5;
+            color: white;
+        }
+
+        .btn-reg {
+            background: #4f46e5;
+            color: white;
+        }
+
+        .btn-reg:hover {
+            background: #4338ca;
+        }
+
+        /* КОНТЕЙНЕР */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 32px 24px;
+        }
+
+        /* КАРТОЧКИ */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+            margin: 32px 0;
+        }
+
+        .card {
+            background: white;
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: all 0.2s;
+            border: 1px solid #eef2ff;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+        }
+
+        /* МАЛЕНЬКИЕ ИКОНКИ */
+        .icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, #e0e7ff, #fae8ff);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #eef2ff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 8px;
+        }
+
+        /* ЗАМЕТНАЯ КНОПКА "НАЧАТЬ УРОК" */
+        .btn-lesson {
+            display: inline-block;
+            margin-top: 20px;
+            background: #4f46e5;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-lesson:hover {
+            background: #4338ca;
+            transform: scale(0.98);
+        }
+
+        .btn-outline-small {
+            background: white;
+            color: #4f46e5;
+            border: 2px solid #4f46e5;
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-outline-small:hover {
+            background: #4f46e5;
+            color: white;
+        }
+
+        .dashboard {
+            background: linear-gradient(115deg, #ffffff, #f8fafc);
+            border-radius: 32px;
+            padding: 32px;
+            text-align: center;
+            margin: 32px 0;
+            border: 1px solid #e0e7ff;
+        }
+
+        /* МОДАЛЬНЫЕ ОКНА */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            background: white;
+            margin: 10% auto;
+            padding: 32px;
+            border-radius: 28px;
+            width: 90%;
+            max-width: 420px;
+            box-shadow: 0 20px 35px rgba(0,0,0,0.2);
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-content h2 {
+            margin-bottom: 24px;
+            font-size: 28px;
+            color: #1e293b;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #334155;
+            font-size: 14px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            font-size: 15px;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .modal-btn {
+            width: 100%;
+            padding: 12px;
+            background: #4f46e5;
+            color: white;
+            border: none;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 8px;
+        }
+
+        .modal-btn:hover {
+            background: #4338ca;
+            transform: scale(0.98);
+        }
+
+        .modal-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .modal-link a {
+            color: #4f46e5;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .modal-link a:hover {
+            text-decoration: underline;
+        }
+
+        .close {
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: 0.2s;
+            line-height: 20px;
+        }
+
+        .close:hover {
+            color: #1e293b;
+        }
+
+        .error-msg {
+            color: #ef4444;
+            font-size: 13px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .success-msg {
+            color: #10b981;
+            font-size: 13px;
+            margin-top: 5px;
+            display: none;
+            text-align: center;
+        }
+
+        footer {
+            text-align: center;
+            padding: 24px;
+            background: white;
+            border-top: 1px solid #e2e8f0;
+            margin-top: 48px;
+        }
+
+        @media (max-width: 640px) {
+            .header {
+                padding: 12px 16px;
+            }
+            .container {
+                padding: 20px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div class="logo">🎯 PromptHub</div>
+    <div class="nav">
+        <button class="nav-btn" onclick="showPage('home')">Главная</button>
+        <button class="nav-btn" onclick="showPage('learning')">Обучение</button>
+        <button class="nav-btn" onclick="showPage('templates')">Шаблоны</button>
+        <button class="nav-btn" onclick="showPage('cabinet')">Кабинет</button>
+        <button class="nav-btn btn-login" id="openLoginBtn">Войти</button>
+        <button class="nav-btn btn-reg" id="openRegBtn">Регистрация</button>
+    </div>
+</div>
+
+<div class="container" id="app">
+    <!-- Контент будет здесь -->
+</div>
+
+<footer>
+    <p>PromptHub — Мастерская промпт-инжиниринга</p>
+</footer>
+
+<!-- МОДАЛЬНОЕ ОКНО ВХОДА -->
+<div id="loginModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeLoginModal()">&times;</span>
+        <h2>🔐 Вход</h2>
+        <div class="input-group">
+            <label>Email</label>
+            <input type="email" id="loginEmail" placeholder="ivan@example.com">
+        </div>
+        <div class="input-group">
+            <label>Пароль</label>
+            <input type="password" id="loginPassword" placeholder="••••••">
+        </div>
+        <button class="modal-btn" onclick="handleLogin()">Войти</button>
+        <div class="modal-link">
+            Нет аккаунта? <a onclick="switchToRegister()">Зарегистрироваться</a>
+        </div>
+        <div id="loginError" class="error-msg"></div>
+    </div>
+</div>
+
+<!-- МОДАЛЬНОЕ ОКНО РЕГИСТРАЦИИ -->
+<div id="registerModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeRegisterModal()">&times;</span>
+        <h2>📝 Регистрация</h2>
+        <div class="input-group">
+            <label>Имя пользователя</label>
+            <input type="text" id="regUsername" placeholder="Алексей">
+        </div>
+        <div class="input-group">
+            <label>Email</label>
+            <input type="email" id="regEmail" placeholder="ivan@example.com">
+        </div>
+        <div class="input-group">
+            <label>Пароль</label>
+            <input type="password" id="regPassword" placeholder="минимум 6 символов">
+        </div>
+        <button class="modal-btn" onclick="handleRegister()">Зарегистрироваться</button>
+        <div class="modal-link">
+            Уже есть аккаунт? <a onclick="switchToLogin()">Войти</a>
+        </div>
+        <div id="regError" class="error-msg"></div>
+        <div id="regSuccess" class="success-msg"></div>
+    </div>
+</div>
+
+<script>
+    // Данные для карточек
+    const techniques = [
+        { name: "Chain of Thought", desc: "Пошаговое рассуждение для сложных задач", level: "Начинающий", time: "15 мин", icon: "🧠" },
+        { name: "Few-Shot обучение", desc: "Использование примеров в промптах", level: "Средний", time: "20 мин", icon: "📝" },
+        { name: "Zero-Shot техники", desc: "Промпты без примеров", level: "Начинающий", time: "10 мин", icon: "⚡" },
+        { name: "Ролевые промпты", desc: "Создание персонажей и контекста", level: "Средний", time: "25 мин", icon: "🎭" },
+        { name: "Структурированный вывод", desc: "JSON, XML и другие форматы", level: "Продвинутый", time: "30 мин", icon: "📐" }
+    ];
+
+    const templates = [
+        { name: "Анализ тональности", type: "Zero-Shot", desc: "Классифицируйте отзывы как позитивные/негативные" },
+        { name: "Цепочка рассуждений", type: "CoT", desc: "Логические задачи с пояснением шагов" },
+        { name: "Роль эксперта", type: "Ролевой", desc: "Ответ от лица эксперта в любой области" },
+        { name: "JSON вывод", type: "Структура", desc: "Форматированный вывод данных" }
+    ];
+
+    // Переменная для хранения состояния авторизации
+    let isLoggedIn = false;
+    let currentUser = null;
+
+    // Функции отображения страниц
+    function renderHome() {
+        return `
+            <div class="dashboard">
+                <h2>✨ Добро пожаловать${currentUser ? ', ' + currentUser.username : ''}!</h2>
+                <p style="font-size: 18px; margin: 12px 0;">Мой кабинет — управляйте своими шаблонами и настройками</p>
+                <button class="btn-outline-small" onclick="showPage('cabinet')">📁 Перейти в кабинет</button>
+            </div>
+
+            <h2>🎓 Обучение промпт-инжинирингу</h2>
+            <p>Выберите технику и начните обучение прямо сейчас</p>
+            <div class="cards">
+                ${techniques.map(t => `
+                    <div class="card">
+                        <div class="icon">${t.icon}</div>
+                        <h3>${t.name}</h3>
+                        <p>${t.desc}</p>
+                        <span class="badge">${t.level}</span>
+                        <span>⏱ ${t.time}</span>
+                        <br>
+                        <button class="btn-lesson" onclick="alert('Урок: ${t.name}')">Начать урок →</button>
+                    </div>
+                `).join('')}
+            </div>
+
+            <h2>📚 Галерея шаблонов</h2>
+            <div class="cards">
+                ${templates.map(t => `
+                    <div class="card">
+                        <h3>📋 ${t.name}</h3>
+                        <span class="badge">${t.type}</span>
+                        <p>${t.desc}</p>
+                        <button class="btn-outline-small" onclick="alert('Шаблон "${t.name}" скопирован!')">📋 Скопировать</button>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    }
+
+    function renderLearning() {
+        return `
+            <h2>🧪 Обучение промпт-инжинирингу</h2>
+            <div class="cards">
+                ${techniques.map(t => `
+                    <div class="card">
+                        <div class="icon">${t.icon}</div>
+                        <h3>${t.name}</h3>
+                        <p>${t.desc}</p>
+                        <span class="badge">${t.level}</span>
+                        <span>⏱ ${t.time}</span>
+                        <br>
+                        <button class="btn-lesson" onclick="alert('Урок: ${t.name}')">Начать урок →</button>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    }
+
+    function renderTemplates() {
+        return `
+            <h2>📚 Галерея шаблонов</h2>
+            <div class="cards">
+                ${templates.map(t => `
+                    <div class="card">
+                        <h3>📋 ${t.name}</h3>
+                        <span class="badge">${t.type}</span>
+                        <p>${t.desc}</p>
+                        <button class="btn-outline-small" onclick="alert('Шаблон "${t.name}" скопирован!')">📋 Скопировать</button>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    }
+
+    function renderCabinet() {
+        if (!isLoggedIn) {
+            return `
+                <div class="dashboard">
+                    <div style="font-size: 60px;">🔒</div>
+                    <h2>Требуется авторизация</h2>
+                    <p>Пожалуйста, войдите или зарегистрируйтесь, чтобы увидеть кабинет</p>
+                    <div style="margin-top: 24px;">
+                        <button class="btn-outline-small" onclick="openLoginModal()">Войти</button>
+                        <button class="btn-outline-small" onclick="openRegisterModal()">Регистрация</button>
+                    </div>
+                </div>
+            `;
+        }
+        
+        return `
+            <div class="dashboard">
+                <div style="font-size: 60px;">👤</div>
+                <h2>Мой кабинет</h2>
+                <p><strong>${currentUser?.username}</strong> (${currentUser?.email})</p>
+                <p style="margin-top: 12px;">Управляйте своими шаблонами и настройками</p>
+                <div style="margin-top: 24px;">
+                    <button class="btn-outline-small" onclick="alert('Редактирование профиля')">✏️ Редактировать</button>
+                    <button class="btn-outline-small" onclick="alert('Ваши шаблоны: 3 шт')">📁 Мои шаблоны</button>
+                    <button class="btn-outline-small" onclick="logout()">🚪 Выйти</button>
+                </div>
+            </div>
+        `;
+    }
+
+    function showPage(page) {
+        const app = document.getElementById('app');
+        if (page === 'home') app.innerHTML = renderHome();
+        else if (page === 'learning') app.innerHTML = renderLearning();
+        else if (page === 'templates') app.innerHTML = renderTemplates();
+        else if (page === 'cabinet') app.innerHTML = renderCabinet();
+    }
+
+    // Модальные окна
+    function openLoginModal() {
+        document.getElementById('loginModal').style.display = 'block';
+        document.getElementById('loginError').style.display = 'none';
+        document.getElementById('loginEmail').value = '';
+        document.getElementById('loginPassword').value = '';
+    }
+
+    function closeLoginModal() {
+        document.getElementById('loginModal').style.display = 'none';
+    }
+
+    function openRegisterModal() {
+        document.getElementById('registerModal').style.display = 'block';
+        document.getElementById('regError').style.display = 'none';
+        document.getElementById('regSuccess').style.display = 'none';
+        document.getElementById('regUsername').value = '';
+        document.getElementById('regEmail').value = '';
+        document.getElementById('regPassword').value = '';
+    }
+
+    function closeRegisterModal() {
+        document.getElementById('registerModal').style.display = 'none';
+    }
+
+    // Обработка входа
+    function handleLogin() {
+        const email = document.getElementById('loginEmail').value.trim();
+        const password = document.getElementById('loginPassword').value;
+        const errorDiv = document.getElementById('loginError');
+
+        if (!email || !password) {
+            errorDiv.textContent = '❌ Заполните все поля';
+            errorDiv.style.display = 'block';
+            return;
+        }
+
+        // Проверяем, есть ли пользователь в localStorage
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        const user = users.find(u => u.email === email && u.password === password);
+
+        if (user) {
+            isLoggedIn = true;
+            currentUser = { username: user.username, email: user.email };
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            closeLoginModal();
+            showPage('home');
+            updateNavButtons();
+            alert(`✅ Добро пожаловать, ${user.username}!`);
+        } else {
+            errorDiv.textContent = '❌ Неверный email или пароль';
+            errorDiv.style.display = 'block';
+        }
+    }
+
+    // Обработка регистрации
+    function handleRegister() {
+        const username = document.getElementById('regUsername').value.trim();
+        const email = document.getElementById('regEmail').value.trim();
+        const password = document.getElementById('regPassword').value;
+        const errorDiv = document.getElementById('regError');
+        const successDiv = document.getElementById('regSuccess');
+
+        if (!username || !email || !password) {
+            errorDiv.textContent = '❌ Заполните все поля';
+            errorDiv.style.display = 'block';
+            successDiv.style.display = 'none';
+            return;
+        }
+
+        if (password.length < 6) {
+            errorDiv.textContent = '❌ Пароль должен быть не менее 6 символов';
+            errorDiv.style.display = 'block';
+            successDiv.style.display = 'none';
+            return;
+        }
+
+        // Проверяем, не существует ли уже такой email
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        if (users.find(u => u.email === email)) {
+            errorDiv.textContent = '❌ Пользователь с таким email уже существует';
+            errorDiv.style.display = 'block';
+            successDiv.style.display = 'none';
+            return;
+        }
+
+        // Сохраняем пользователя
+        const newUser = { username, email, password };
+        users.push(newUser);
+        localStorage.setItem('users', JSON.stringify(users));
+
+        // Автоматически входим
+        isLoggedIn = true;
+        currentUser = { username, email };
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+
+        successDiv.textContent = '✅ Регистрация успешна!';
+        successDiv.style.display = 'block';
+        errorDiv.style.display = 'none';
+
+        setTimeout(() => {
+            closeRegisterModal();
+            showPage('home');
+            updateNavButtons();
+            alert(`🎉 Добро пожаловать, ${username}!`);
+        }, 1500);
+    }
+
+    // Переключение между модалками
+    function switchToRegister() {
+        closeLoginModal();
+        openRegisterModal();
+    }
+
+    function switchToLogin() {
+        closeRegisterModal();
+        openLoginModal();
+    }
+
+    // Выход из аккаунта
+    function logout() {
+        isLoggedIn = false;
+        currentUser = null;
+        localStorage.removeItem('currentUser');
+        showPage('home');
+        updateNavButtons();
+        alert('👋 Вы вышли из аккаунта');
+    }
+
+    // Обновляем кнопки входа/регистрации в шапке
+    function updateNavButtons() {
+        const nav = document.querySelector('.nav');
+        const loginBtn = document.getElementById('openLoginBtn');
+        const regBtn = document.getElementById('openRegBtn');
+        
+        if (isLoggedIn && loginBtn && regBtn) {
+            loginBtn.style.display = 'none';
+            regBtn.style.display = 'none';
+            
+            // Добавляем кнопку "Выйти", если её нет
+            if (!document.getElementById('logoutNavBtn')) {
+                const logoutNavBtn = document.createElement('button');
+                logoutNavBtn.id = 'logoutNavBtn';
+                logoutNavBtn.className = 'nav-btn btn-login';
+                logoutNavBtn.textContent = `👤 ${currentUser?.username} | Выйти`;
+                logoutNavBtn.onclick = () => logout();
+                nav.appendChild(logoutNavBtn);
+            } else {
+                const logoutNavBtn = document.getElementById('logoutNavBtn');
+                logoutNavBtn.textContent = `👤 ${currentUser?.username} | Выйти`;
+            }
+        } else if (loginBtn && regBtn) {
+            loginBtn.style.display = 'block';
+            regBtn.style.display = 'block';
+            const logoutNavBtn = document.getElementById('logoutNavBtn');
+            if (logoutNavBtn) logoutNavBtn.remove();
+        }
+    }
+
+    // Закрытие модалок по клику вне области
+    window.onclick = function(event) {
+        const loginModal = document.getElementById('loginModal');
+        const regModal = document.getElementById('registerModal');
+        if (event.target === loginModal) closeLoginModal();
+        if (event.target === regModal) closeRegisterModal();
+    }
+
+    // Восстановление сессии при загрузке
+    function restoreSession() {
+        const savedUser = localStorage.getItem('currentUser');
+        if (savedUser) {
+            currentUser = JSON.parse(savedUser);
+            isLoggedIn = true;
+            updateNavButtons();
+        }
+        showPage('home');
+    }
+
+    // Привязываем кнопки
+    document.getElementById('openLoginBtn').onclick = openLoginModal;
+    document.getElementById('openRegBtn').onclick = openRegisterModal;
+
+    // Запуск
+    restoreSession();
+</script>
+</body>
+</html>
