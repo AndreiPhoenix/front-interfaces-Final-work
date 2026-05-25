@@ -2,65 +2,74 @@ import Link from 'next/link';
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 py-20">
-        <div className="text-center">
-          <h1 className="text-5xl font-bold text-gray-900 mb-6">
-            Мастерская Промпт-Инжиниринга
-          </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-10">
-            Изучайте современные техники создания промптов, создавайте шаблоны 
-            и делитесь ими с сообществом
-          </p>
-          <div className="flex gap-4 justify-center">
-            <Link
-              href="/learn"
-              className="px-8 py-3 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition-colors"
-            >
-              Начать обучение
-            </Link>
-            <Link
-              href="/templates"
-              className="px-8 py-3 border-2 border-indigo-600 text-indigo-600 rounded-lg font-semibold hover:bg-indigo-50 transition-colors"
-            >
-              Смотреть шаблоны
-            </Link>
-          </div>
+    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '48px 16px' }}>
+      <div style={{ textAlign: 'center', marginBottom: '64px' }}>
+        <h1 style={{ fontSize: '48px', fontWeight: 'bold', color: '#111827', marginBottom: '16px' }}>
+          Мастерская Промпт-Инжиниринга
+        </h1>
+        <p style={{ fontSize: '20px', color: '#4b5563', maxWidth: '600px', margin: '0 auto 32px' }}>
+          Изучайте современные техники создания промптов, создавайте шаблоны и делитесь ими
+        </p>
+        <div style={{ display: 'flex', gap: '16px', justifyContent: 'center' }}>
+          <Link
+            href="/learn"
+            style={{
+              padding: '12px 32px',
+              backgroundColor: '#4f46e5',
+              color: 'white',
+              borderRadius: '8px',
+              textDecoration: 'none',
+              fontWeight: '600',
+            }}
+          >
+            Начать обучение
+          </Link>
+          <Link
+            href="/templates"
+            style={{
+              padding: '12px 32px',
+              border: '2px solid #4f46e5',
+              color: '#4f46e5',
+              borderRadius: '8px',
+              textDecoration: 'none',
+              fontWeight: '600',
+            }}
+          >
+            Смотреть шаблоны
+          </Link>
         </div>
+      </div>
 
-        <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="bg-white rounded-lg shadow p-8 text-center">
-            <div className="text-4xl font-bold text-indigo-600">50+</div>
-            <div className="text-gray-600 mt-2">Техник промптов</div>
-          </div>
-          <div className="bg-white rounded-lg shadow p-8 text-center">
-            <div className="text-4xl font-bold text-purple-600">1000+</div>
-            <div className="text-gray-600 mt-2">Шаблонов создано</div>
-          </div>
-          <div className="bg-white rounded-lg shadow p-8 text-center">
-            <div className="text-4xl font-bold text-pink-600">500+</div>
-            <div className="text-gray-600 mt-2">Пользователей</div>
-          </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px', marginBottom: '64px' }}>
+        <div style={{ backgroundColor: 'white', padding: '32px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', textAlign: 'center' }}>
+          <div style={{ fontSize: '36px', fontWeight: 'bold', color: '#4f46e5' }}>50+</div>
+          <div style={{ color: '#6b7280' }}>Техник промптов</div>
         </div>
+        <div style={{ backgroundColor: 'white', padding: '32px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', textAlign: 'center' }}>
+          <div style={{ fontSize: '36px', fontWeight: 'bold', color: '#7c3aed' }}>1000+</div>
+          <div style={{ color: '#6b7280' }}>Шаблонов создано</div>
+        </div>
+        <div style={{ backgroundColor: 'white', padding: '32px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', textAlign: 'center' }}>
+          <div style={{ fontSize: '36px', fontWeight: 'bold', color: '#ec4899' }}>500+</div>
+          <div style={{ color: '#6b7280' }}>Пользователей</div>
+        </div>
+      </div>
 
-        <div className="mt-20">
-          <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
-            Возможности платформы
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white rounded-lg shadow p-8">
-              <h3 className="text-xl font-semibold mb-3">Интерактивное обучение</h3>
-              <p className="text-gray-600">Пошаговые уроки с практическими заданиями</p>
-            </div>
-            <div className="bg-white rounded-lg shadow p-8">
-              <h3 className="text-xl font-semibold mb-3">Редактор шаблонов</h3>
-              <p className="text-gray-600">Создавайте промпты с подсветкой синтаксиса</p>
-            </div>
-            <div className="bg-white rounded-lg shadow p-8">
-              <h3 className="text-xl font-semibold mb-3">Сообщество</h3>
-              <p className="text-gray-600">Делитесь шаблонами и учитесь у других</p>
-            </div>
-          </div>
+      <h2 style={{ fontSize: '30px', fontWeight: 'bold', textAlign: 'center', marginBottom: '48px' }}>
+        Возможности платформы
+      </h2>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px' }}>
+        <div style={{ backgroundColor: 'white', padding: '32px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+          <h3 style={{ fontSize: '20px', fontWeight: '600', marginBottom: '12px' }}>Интерактивное обучение</h3>
+          <p style={{ color: '#6b7280' }}>Пошаговые уроки с практическими заданиями</p>
+        </div>
+        <div style={{ backgroundColor: 'white', padding: '32px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+          <h3 style={{ fontSize: '20px', fontWeight: '600', marginBottom: '12px' }}>Редактор шаблонов</h3>
+          <p style={{ color: '#6b7280' }}>Создавайте промпты с подсветкой синтаксиса</p>
+        </div>
+        <div style={{ backgroundColor: 'white', padding: '32px', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+          <h3 style={{ fontSize: '20px', fontWeight: '600', marginBottom: '12px' }}>Сообщество</h3>
+          <p style={{ color: '#6b7280' }}>Делитесь шаблонами и учитесь у других</p>
         </div>
       </div>
     </div>
