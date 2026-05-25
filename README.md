@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 PromptHub - Мастерская Промпт-Инжиниринга
 
-## Getting Started
+![Next.js](https://img.shields.io/badge/Next.js-14.2-black?logo=next.js)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue?logo=typescript)
+![Tailwind](https://img.shields.io/badge/Tailwind-3.3-38bdf8?logo=tailwindcss)
+![License](https://img.shields.io/badge/license-MIT-green)
 
-First, run the development server:
+Платформа для изучения современных техник промпт-инжиниринга, создания шаблонов и обмена ими с сообществом.
+
+## ✨ Возможности
+
+- 📚 **Обучение** - интерактивные уроки по 6 техникам промпт-инжиниринга
+- 🎨 **Шаблоны** - галерея готовых решений от сообщества
+- ✏️ **Редактор промптов** - создание шаблонов с подсветкой синтаксиса
+- 👤 **Личный кабинет** - управление своими шаблонами
+- 🔐 **Аутентификация** - регистрация и вход в систему
+- ♿ **Доступность** - поддержка скринридеров и клавиатурной навигации
+
+## 🎯 Подсветка синтаксиса
+
+Поддерживаемые элементы промптов:
+
+| Элемент | Пример | Тип |
+|---------|--------|-----|
+| Заголовки | `## Heading` | `heading` |
+| Разделители | `—` | `separator` |
+| Стрелки | `→` | `arrow` |
+| XML-теги | `<tag>` | `xml-tag` |
+| Переменные | `{{var}}` | `variable` |
+| Акценты | `CAPS` | `accent` |
+| MetaGlyph | `∈ ∩ ∪` | `metaglyph` |
+| Инлайн-код | `` `code` `` | `inline-code` |
+| JSON | `"key": "value"` | `json` |
+| Декораторы | `+++Format` | `decorator` |
+
+## 🛠 Технологический стек
+
+### Frontend
+- **Next.js 14** - React фреймворк с SSR
+- **TypeScript** - типизация
+- **Tailwind CSS** - стилизация
+- **Jest** - unit-тестирование
+- **Playwright** - e2e тестирование
+
+### Инструменты
+- **ESLint** - линтер
+- **Prettier** - форматирование
+- **Bundle Analyzer** - анализ размера бандла
+- **Lighthouse** - аудит производительности
+
+## 📦 Установка и запуск
+
+### Требования
+- Node.js 18+
+- npm 9+
+
+### Установка
 
 ```bash
+# Клонирование репозитория
+git clone https://github.com/your-username/prompthub.git
+cd prompthub
+
+# Установка зависимостей
+npm install
+
+# Запуск в режиме разработки
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
